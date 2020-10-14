@@ -21,6 +21,8 @@ export const searchLocationByName = async (name) => {
 
     const data = await fetchAPI(query)
 
+    console.log(data)
+
     return data
 } 
 

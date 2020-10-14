@@ -11,7 +11,7 @@ const Date = props => {
 
     const formattedDate = formatDate(date, weekDayOnly)
 
-    return <span>{formattedDate}</span>
+    return <time dateTime={formattedDate}>{formattedDate}</time>
 }
 
 Date.propTypes = {

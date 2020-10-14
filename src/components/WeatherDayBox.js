@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 // components
 import Date from '../elements/Date'
@@ -8,10 +8,28 @@ import WeatherIcon from '../elements/WeatherIcon'
 import Degree from '../elements/Degree'
 
 // styles
+const fadeIn = keyframes`
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+`;
+
 const Wrapper = styled.div`
     flex: 1;
     text-align: center;
     padding: 15px;
+    animation: ${fadeIn} .5s ease-in;
+    @media all and (max-width: 1024px){
+        flex: auto;
+        width: calc(100%/3 - 30px);
+    }
+
+    @media all and (max-width: 767.98px){
+        width: calc(100%/2 - 30px);
+    }
 `;
 
 const DateLabel = styled.p`
@@ -48,20 +66,14 @@ const CurrentDegree = styled.div`
 
 const WeatherDayBox = props => {
     const {
-        air_pressure,
         applicable_date,
-        humidity,
         max_temp,
         min_temp,
-        predictability,
         the_temp,
-        visibility,
         weather_state_abbr,
         weather_state_name,
-        wind_direction,
-        wind_direction_compass,
-        wind_speed,
-        today
+        today,
+        isCelsius
     } = props
 
     return (
@@ -83,18 +95,25 @@ const WeatherDayBox = props => {
             </IconWrapper>
 
             <CurrentDegree>
-                <Degree degree={the_temp} />
+                <Degree isCelsius={isCelsius} degree={the_temp} />
             </CurrentDegree>
 
             <MinMaxDegree>
-                <Degree degree={min_temp} /> / <Degree degree={max_temp} />
+                <Degree isCelsius={isCelsius} degree={min_temp} /> / <Degree isCelsius={isCelsius} degree={max_temp} />
             </MinMaxDegree>
         </Wrapper>
     )
 }
 
 WeatherDayBox.propTypes = {
-
+    applicable_date: PropTypes.string,
+    max_temp: PropTypes.number,
+    min_temp: PropTypes.number,
+    the_temp: PropTypes.number,
+    weather_state_abbr: PropTypes.string,
+    weather_state_name: PropTypes.string,
+    today: PropTypes.bool,
+    isCelsius: PropTypes.bool
 }
 
 export default React.memo(WeatherDayBox)
