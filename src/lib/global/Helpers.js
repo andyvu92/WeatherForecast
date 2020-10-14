@@ -17,3 +17,45 @@ export const getLocation = () => {
         })
     })
 }
+
+export const formatDate = (rawDate, dateOnly = false) => {
+    // get day of the week
+    function getWeekDay(date){
+        //Create an array containing each day, starting with Sunday.
+        var weekdays = new Array(
+            "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+        );
+        //Use the getDay() method to get the day.
+        var day = date.getDay();
+        //Return the element that corresponds to that index.
+        return weekdays[day];
+    }
+
+    const dataArr = rawDate.split('-').reverse()
+
+    const monthsArr = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December'
+    ];
+    
+    // get basics
+    const date = dataArr[0];
+    const month = monthsArr[Number(dataArr[1]) - 1];
+    const year = dataArr[2];
+
+    // format date
+    const theDate = new Date(`${month} ${date}, ${year}`)
+    const weekDay = getWeekDay( theDate );
+
+    return dateOnly ? weekDay : `${weekDay} ${month} ${date}, ${year}`
+}
